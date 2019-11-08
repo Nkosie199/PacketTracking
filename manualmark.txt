@@ -1,0 +1,48 @@
+#8(b)
+No
+
+#9
+No. From the trace file I can see that the value of the sequence and acknowledgement variables gradually increase until a maximum whereby the file has presumably completed the sending of this file. 
+
+#13
+The value of the more fragments flag is 0.
+
+#14
+20 bytes are in the IP header. 36 bytes are in the payload.
+
+#15
+Sequence number, time-to-live, header checksum
+
+#16
+Fields which stay constant:
+• Source and Destination IP: as we are sending data packets to and from the same source and destinations.
+• ICMP Protocol: communication between source and destination must always use the same protocol.
+• Internet Protocol Version: we are using Internet Protocol Version 4 for all packets.
+• Header length: as we are using ICMP packets.
+• Differentiated Services: all packets are ICMP therefore they use the same Type of Service class.
+
+Fields which MUST stay constant:
+• Source and Destination IP: as we must keep sending data packets to and from the same source and destinations.
+• Internet Protocol Version: we must try to use a constant Internet Protocol Version for all packets.
+• Header length: as we are using ICMP packets.
+• Differentiated Services: all packets are ICMP therefore they must use the same Type of Service class.
+
+Fields that MUST change:
+• Id and sequence number: IP packets must be uniquely identifiable.
+• Time to live: traceroute (in this case, pingplotter) works by incrementing the value of time to live by one for each node (router) it encounters.
+• Header checksum: the checksum value increments at each node (router) and totals the summed value of previous header lengths.
+
+
+#17
+The IP header Identification field seems to increment with each ICMP Echo (ping) request. 
+
+I filtered the messages with the keyword 'ICMP', expanded the 'Internet Protocol Version 4' part of the 'details of selected packets' and could see a trend in the 'Identification' value corresponding with incrementing 'TTL' value.
+
+Identification: 0x4f14/ 20244 (frame no. 238)
+TTL: 255
+
+
+#18
+The Identification field changes for all the ICMP TTL-exceeded replies as each one has to be uniquely identifiable. If this field was the same it would means that the corresponding datagrams are fragments of a single (often much larger) datagram.
+
+The TTL field remains constant. Reasonably so because the TTL for the one specific node (router) hop will always be the same and only increment once that node has been reached.
